@@ -6,6 +6,8 @@ using project.Models;
 
 namespace project.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
         private readonly DatabaseContext dataContext;

@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace project.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProjectenController : ControllerBase
     {
         private readonly DatabaseContext dataContext;
