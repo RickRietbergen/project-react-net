@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using project.DataBase;
 
 namespace project
 {
@@ -14,6 +16,11 @@ namespace project
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<DatabaseContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,6 +29,10 @@ namespace project
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => true));
 
             app.UseHttpsRedirection();
 
