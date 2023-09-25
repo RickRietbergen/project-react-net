@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using project.DataBase;
 using project.Entities;
 using project.Models;
@@ -23,6 +24,22 @@ namespace project.Controllers
             };
 
             await dataContext.Projects.AddAsync(newProject);
+            await dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("DeleteProject/{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            var project = await dataContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            dataContext.Remove(project);
             await dataContext.SaveChangesAsync();
 
             return Ok();
