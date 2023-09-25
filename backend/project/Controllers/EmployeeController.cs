@@ -78,5 +78,11 @@ namespace project.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Employee>>> Get()
+        {
+            return Ok(await dataContext.Employees.ToListAsync());
+        }
     }
 }
