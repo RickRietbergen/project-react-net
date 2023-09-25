@@ -17,11 +17,9 @@ namespace project.Controllers
         [HttpPost("ProjectCreate")]
         public async Task<IActionResult> Post(ProjectCreateModel model)
         {
-            var projectName = model.Name;
-
             var newProject = new Project
             {
-                Name = projectName,
+                Name = model.Name,
             };
 
             await dataContext.Projects.AddAsync(newProject);
