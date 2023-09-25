@@ -22,6 +22,7 @@ namespace project.Controllers
             var newProject = new Project
             {
                 Name = model.Name,
+                Planningen = new List<Planning>(),
             };
 
             await dataContext.Projects.AddAsync(newProject);
