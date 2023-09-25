@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using project.Entities;
 using System.Collections.Generic;
 
 namespace project.DataBase
@@ -10,5 +11,8 @@ namespace project.DataBase
 
         }
 
+        public DbSet<Planning> Planning { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }
