@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace project.Controllers
 {
-    public class ProjectenController : Controller
+    public class ProjectenController : ControllerBase
     {
         private readonly DatabaseContext dataContext;
 
@@ -48,7 +48,7 @@ namespace project.Controllers
         }
 
         [HttpPut("UpdateProject/{id}")]
-        public async Task<IActionResult> Edit(int id, [FromBody] ProjectEditModel model)
+        public async Task<IActionResult> EditProject(int id, [FromBody] ProjectEditModel model)
         {
             var project = await dataContext.Projects.FirstOrDefaultAsync(x => x.Id == id);
 
