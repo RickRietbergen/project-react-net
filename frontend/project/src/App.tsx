@@ -7,9 +7,20 @@ function App() {
   return (
     <>
       <Box
-        sx={{width: "100%", height: "100%"}}
+        display={"flex"}
+        //justifyContent={"center"}
+        alignItems={"center"}
+        flexDirection={"column"}
+        sx={{width: "100%", height: "100vh"}}
       >
-        <Typography>This is a test</Typography>
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          sx={{width: "100%", height: "20%"}}
+        >
+          <Typography sx={{fontSize: 30, fontWeight: "bold"}}>Week</Typography>
+        </Box>
       </Box>
     </>
   );
