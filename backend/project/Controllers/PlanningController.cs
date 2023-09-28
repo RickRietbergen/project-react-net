@@ -25,7 +25,8 @@ namespace project.Controllers
             var employeeWorkHours = await dataContext.Planning
                 .Include(p => p.Employee)
                 .Include(p => p.Project)
-                .Where(p => p.Week == currentWeek).ToListAsync();
+                .Where(p => p.Week == currentWeek)
+                .ToListAsync();
 
             var options = new JsonSerializerOptions
             {

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import "./App.css";
 import { API_URL } from "./components/constants";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 
 function App() {
-  const [planningData, setPlanningData] = useState(null);
-  const [currentweek, setCurrentWeek] = useState(null);
+  const [planningData, setPlanningData] = useState([]);
+  const [currentweek, setCurrentWeek] = useState("");
 
   const fetchPlanning = () => {
     fetch(`${API_URL}Planning`, { method: "GET" })
@@ -49,15 +52,38 @@ function App() {
         </Box>
 
         <Box
-          display={"flex"}
-          sx={{ width: "100%", height: "80%", backgroundColor: "lightgrey" }}
+          display={"grid"}
+          gridTemplateColumns={"repeat(4, 1fr)"}
+          sx={{
+            width: "100%",
+            height: "80%",
+            backgroundColor: "lightgrey",
+            gap: "26px",
+          }}
         >
-          <Box
-            sx={{width: "15%", height: ""}}
-          >
-
-          </Box>
-
+          {planningData.map((item: any, index: number) => (
+            <Box
+              key={index}
+              sx={{ width: "100%", height: "35%", backgroundColor: "grey" }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 25,
+                  fontWeight: 600,
+                  textAlign: "center",
+                  paddingTop: "10px",
+                }}
+              >
+                {item.Project.Name}
+              </Typography>
+              <Typography sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}>
+                Total hours: {item.Hours}
+              </Typography>
+              <Typography sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}>
+                Werknemer: {item.Employee.Name}
+              </Typography>
+            </Box>
+          ))}
         </Box>
       </Box>
     </>
