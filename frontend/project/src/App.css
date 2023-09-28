@@ -4,6 +4,22 @@
   box-sizing: border-box;
 }
 
+.table-container {
+  margin: 20px;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid white;
+  padding: 8px;
+  text-align: left;
+}
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;
