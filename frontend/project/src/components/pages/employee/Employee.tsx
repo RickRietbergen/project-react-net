@@ -61,7 +61,7 @@ const Employee = () => {
                       <td>{item.name}</td>
                       <td>{item.contractHours}</td>
                       <td>Edit Button</td>
-                      <td><Button></Button></td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
