@@ -27,3 +27,6 @@ backend/project/obj/Debug/net7.0/refint/project.dll
 backend/project/obj/Debug/net7.0/project.GeneratedMSBuildEditorConfig.editorconfig
 backend/project/obj/Debug/net7.0/project.csproj.CoreCompileInputs.cache
 backend/project/.vs/project/v17/.suo
+backend/project/bin/Debug/net7.0/project.dll
+backend/project/bin/Debug/net7.0/project.pdb
+backend/project/.vs/project/FileContentIndex/0661a11b-b490-4c52-8bcc-542bcedd4fd9.vsidx
