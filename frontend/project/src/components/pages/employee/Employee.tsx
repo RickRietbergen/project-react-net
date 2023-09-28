@@ -4,9 +4,7 @@ import "../../../App.css"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteIcon from "../../../assets/delete.png"
 
 const Employee = () => {
     const [employeeData, setEmployeeData] = useState([]);
@@ -60,8 +58,16 @@ const Employee = () => {
                       <td>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.contractHours}</td>
-                      <td>Edit Button</td>
-                      <td></td>
+                      <td>
+                        <Button>
+                          <img src="../src/assets/edit.png" alt="edit-icon" className="img" />
+                        </Button>
+                      </td>
+                      <td>
+                        <Button>
+                          <img src="../src/assets/delete.png" alt="delete-icon" className="img" />
+                        </Button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
