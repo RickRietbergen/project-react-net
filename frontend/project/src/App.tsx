@@ -3,11 +3,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import "./App.css";
-import { API_URL } from "./components/constants";
+import { API_URL } from "./components/links/constants";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 
-function App() {
+const App = () => {
   const [planningData, setPlanningData] = useState([]);
   const [currentweek, setCurrentWeek] = useState("");
 
@@ -57,7 +57,6 @@ function App() {
           sx={{
             width: "100%",
             height: "80%",
-            backgroundColor: "lightgrey",
             gap: "26px",
           }}
         >
