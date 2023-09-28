@@ -20,7 +20,7 @@ const Employee = () => {
           return response.json();
         })
         .then((data) => {
-          setEmployeeData(data.$values);
+          setEmployeeData(data);
         })
         .catch((error) => {
           console.log("Error fetching planning data:", error);
@@ -36,10 +36,40 @@ const Employee = () => {
         <Box
           display={"flex"}
           alignItems={"center"}
+          justifyContent={"center"}
           flexDirection={"column"}
           sx={{ width: "100%", height: "100vh" }}
         >
-            
+          {employeeData &&
+          Array.isArray(employeeData) &&
+          employeeData.length > 0 ? (
+            employeeData.map((item: any, index: number) => (
+              <Box key={index} className="table-container">
+                <table className="styled-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>ContractHours</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{item.id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.contractHours}</td>
+                      <td>Edit Button</td>
+                      <td><Button></Button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </Box>
+            ))
+          ) : (
+            <Typography>No employee data available.</Typography>
+          )}
         </Box>
       </>
     );
