@@ -58,10 +58,14 @@ const Employee = () => {
                       <td>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.contractHours}</td>
-                      <td>Edit Button</td>
                       <td>
                         <Button>
-                          {DeleteIcon}
+                          <img src="../src/assets/edit.png" alt="edit-icon" className="img" />
+                        </Button>
+                      </td>
+                      <td>
+                        <Button>
+                          <img src="../src/assets/delete.png" alt="delete-icon" className="img" />
                         </Button>
                       </td>
                     </tr>
