@@ -9,7 +9,7 @@ import DeleteIcon from "../../../assets/delete.png"
 const Employee = () => {
     const [employeeData, setEmployeeData] = useState([]);
 
-    const fetchPlanning = () => {
+    const fetchEmployee = () => {
       fetch(`${API_URL}Employee`, { method: "GET" })
         .then((response) => {
           if (!response.ok) {
@@ -21,12 +21,23 @@ const Employee = () => {
           setEmployeeData(data);
         })
         .catch((error) => {
-          console.log("Error fetching planning data:", error);
+          console.log("Error fetching employee data:", error);
         });
     };
 
+    const deleteEmployee = (id: number) => {
+      fetch(`${API_URL}Employee/DeleteEmployee/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).catch((error) => {
+        console.log("Error deleting employee:", error);
+      });
+    }
+
     useEffect(() => {
-      fetchPlanning();
+      fetchEmployee();
     }, []);
 
     return (
@@ -64,7 +75,7 @@ const Employee = () => {
                         </Button>
                       </td>
                       <td>
-                        <Button>
+                        <Button onClick={() => deleteEmployee(item.id)}>
                           <img src="../src/assets/delete.png" alt="delete-icon" className="img" />
                         </Button>
                       </td>
