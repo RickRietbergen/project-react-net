@@ -4,7 +4,7 @@ import "../../../App.css";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Header from "../../shared/header";
+import Header from "../../shared/Header";
 import AddEmployee from "../../add/AddEmployee";
 import Page from "../../shared/Page";
 
@@ -45,7 +45,7 @@ const Employee = () => {
   return (
     <>
       <Page title="Employees" />
-      
+
       <Header />
 
       <AddEmployee />
