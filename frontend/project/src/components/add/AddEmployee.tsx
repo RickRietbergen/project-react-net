@@ -1,7 +1,10 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import AddEmployeeModal from "./AddEmployeeModal";
 
 const AddEmployee = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Box
       display={"flex"}
@@ -9,9 +12,16 @@ const AddEmployee = () => {
       justifyContent={"center"}
       sx={{ width: "100%", height: "20vh" }}
     >
-      <Button variant="outlined" color="primary">
+      <Button variant="outlined" color="primary" onClick={() => setModalOpen(true)}>
         Add Employee
       </Button>
+
+      <AddEmployeeModal 
+        isOpen={modalOpen}
+        onClose={() => {
+            setModalOpen(false);
+        }}
+      />
     </Box>
   );
 };
