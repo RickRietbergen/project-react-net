@@ -45,46 +45,61 @@ const Employee = () => {
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
+          sx={{ width: "100%", height: "20vh" }}
+        ></Box>
+
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
           flexDirection={"column"}
-          sx={{ width: "100%", height: "100vh" }}
+          sx={{ width: "100%", height: "80vh" }}
         >
           {employeeData &&
           Array.isArray(employeeData) &&
           employeeData.length > 0 ? (
-            employeeData.map((item: any, index: number) => (
-              <Box key={index} className="table-container">
-                <table className="styled-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>ContractHours</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
+            <Box className="table-container">
+              <table className="styled-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>ContractHours</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {employeeData.map((item: any, index: number) => (
+                    <tr key={index}>
                       <td>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.contractHours}</td>
                       <td>
                         <Button>
-                          <img src="../src/assets/edit.png" alt="edit-icon" className="img" />
+                          <img
+                            src="../src/assets/edit.png"
+                            alt="edit-icon"
+                            className="img"
+                          />
                         </Button>
                       </td>
                       <td>
                         <Button onClick={() => deleteEmployee(item.id)}>
-                          <img src="../src/assets/delete.png" alt="delete-icon" className="img" />
+                          <img
+                            src="../src/assets/delete.png"
+                            alt="delete-icon"
+                            className="img"
+                          />
                         </Button>
                       </td>
                     </tr>
-                  </tbody>
-                </table>
-              </Box>
-            ))
+                  ))}
+                </tbody>
+              </table>
+            </Box>
           ) : (
-            <Typography>No employee data available.</Typography>
+            <Typography>Geen werknemersgegevens beschikbaar.</Typography>
           )}
         </Box>
       </>
