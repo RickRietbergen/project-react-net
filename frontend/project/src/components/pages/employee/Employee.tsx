@@ -4,7 +4,6 @@ import "../../../App.css"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import DeleteIcon from "../../../assets/delete.png"
 
 const Employee = () => {
     const [employeeData, setEmployeeData] = useState([]);
