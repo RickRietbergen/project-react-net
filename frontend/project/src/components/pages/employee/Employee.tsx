@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Header from "../../shared/header";
 import AddEmployee from "../../add/AddEmployee";
+import Page from "../../shared/Page";
 
 const Employee = () => {
   const [employeeData, setEmployeeData] = useState([]);
@@ -43,6 +44,8 @@ const Employee = () => {
 
   return (
     <>
+      <Page title="Employees" />
+      
       <Header />
 
       <AddEmployee />

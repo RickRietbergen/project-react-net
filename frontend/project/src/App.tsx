@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import "./App.css";
 import { API_URL } from "./components/links/constants";
-import Header from "./components/shared/header";
+import Header from "./components/shared/Header";
+import Page from "./components/shared/Page";
 
 const App = () => {
   const [planningData, setPlanningData] = useState([]);
@@ -32,6 +33,8 @@ const App = () => {
 
   return (
     <>
+      <Page title="Planning"/>
+      
       <Box
         display={"flex"}
         alignItems={"center"}
