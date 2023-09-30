@@ -4,6 +4,8 @@ import "../../../App.css"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Header from "../../header/header";
+import AddEmployee from "../../add/AddEmployee";
 
 const Employee = () => {
     const [employeeData, setEmployeeData] = useState([]);
@@ -41,19 +43,16 @@ const Employee = () => {
 
     return (
       <>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          sx={{ width: "100%", height: "20vh" }}
-        ></Box>
+        <Header />
+
+        <AddEmployee />
 
         <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
           flexDirection={"column"}
-          sx={{ width: "100%", height: "80vh" }}
+          sx={{ width: "100%", height: "70vh" }}
         >
           {employeeData &&
           Array.isArray(employeeData) &&
