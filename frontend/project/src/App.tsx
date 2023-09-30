@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import "./App.css";
 import { API_URL } from "./components/links/constants";
-import Header from "./components/header/header";
+import Header from "./components/shared/header";
 
 const App = () => {
   const [planningData, setPlanningData] = useState([]);
@@ -91,6 +91,6 @@ const App = () => {
       </Box>
     </>
   );
-}
+};
 
 export default App;
