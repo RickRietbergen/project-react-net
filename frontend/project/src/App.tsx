@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import "./App.css";
 import { API_URL } from "./components/links/constants";
+import Header from "./components/header/header";
 
 const App = () => {
   const [planningData, setPlanningData] = useState([]);
@@ -37,6 +38,8 @@ const App = () => {
         flexDirection={"column"}
         sx={{ width: "100%", height: "100vh" }}
       >
+        <Header />
+
         <Box
           display={"flex"}
           justifyContent={"center"}
@@ -53,7 +56,7 @@ const App = () => {
           gridTemplateColumns={"repeat(4, 1fr)"}
           sx={{
             width: "100%",
-            height: "80%",
+            height: "70%",
             gap: "26px",
           }}
         >
@@ -72,10 +75,14 @@ const App = () => {
               >
                 {item.Project.Name}
               </Typography>
-              <Typography sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}>
+              <Typography
+                sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+              >
                 Total hours: {item.Hours}
               </Typography>
-              <Typography sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}>
+              <Typography
+                sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+              >
                 Werknemer: {item.Employee.Name}
               </Typography>
             </Box>
