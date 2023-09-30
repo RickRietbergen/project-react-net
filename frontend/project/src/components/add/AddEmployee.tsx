@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Button, Tooltip } from "@mui/material";
 import AddEmployeeModal from "./AddEmployeeModal";
 
 const AddEmployee = () => {
@@ -12,9 +12,11 @@ const AddEmployee = () => {
       justifyContent={"center"}
       sx={{ width: "100%", height: "20vh" }}
     >
-      <Button variant="outlined" color="primary" onClick={() => setModalOpen(true)}>
-        Add Employee
-      </Button>
+        <Tooltip title="Add Employee">
+            <Button variant="outlined" color="primary" onClick={() => setModalOpen(true)}>
+                Add Employee
+            </Button>
+        </Tooltip>
 
       <AddEmployeeModal 
         isOpen={modalOpen}

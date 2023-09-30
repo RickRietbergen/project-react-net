@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
+import { Box, Button, Typography, Paper, Modal, Tooltip } from "@mui/material";
 import { API_URL } from "../../links/constants";
 import "../../../App.css";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Header from "../../shared/Header";
 import AddEmployee from "../../add/AddEmployee";
 import Page from "../../shared/Page";
@@ -78,22 +76,26 @@ const Employee = () => {
                     <td>{item.name}</td>
                     <td>{item.contractHours}</td>
                     <td>
-                      <Button>
-                        <img
-                          src="../src/assets/edit.png"
-                          alt="edit-icon"
-                          className="img"
-                        />
-                      </Button>
+                      <Tooltip title="Edit Employee">
+                        <Button>
+                          <img
+                            src="../src/assets/edit.png"
+                            alt="edit-icon"
+                            className="img"
+                          />
+                        </Button>
+                      </Tooltip>
                     </td>
                     <td>
-                      <Button onClick={() => deleteEmployee(item.id)}>
-                        <img
-                          src="../src/assets/delete.png"
-                          alt="delete-icon"
-                          className="img"
-                        />
-                      </Button>
+                      <Tooltip title="Delete Employee">
+                        <Button onClick={() => deleteEmployee(item.id)}>
+                          <img
+                            src="../src/assets/delete.png"
+                            alt="delete-icon"
+                            className="img"
+                          />
+                        </Button>
+                      </Tooltip>
                     </td>
                   </tr>
                 ))}
