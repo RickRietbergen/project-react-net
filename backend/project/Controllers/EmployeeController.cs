@@ -16,7 +16,7 @@ namespace project.Controllers
             this.dataContext = dataContext;
         }
 
-        [HttpPost("EmpolyeeCreate")]
+        [HttpPost("EmployeeCreate")]
         public async Task<IActionResult> Post(EmployeeCreateModel model)
         {
             var newEmployee = new Employee
