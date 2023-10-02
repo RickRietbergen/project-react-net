@@ -4,6 +4,7 @@ import { API_URL } from "../../links/constants";
 import "../../../App.css";
 import Header from "../../shared/Header";
 import Page from "../../shared/Page";
+import AddProject from "../../add/AddProject";
 
 const Project = () => {
     const [projectData, setProjectData] = useState([]);
@@ -34,6 +35,8 @@ const Project = () => {
         <Page title="Projects" />
 
         <Header />
+
+        <AddProject />
       </>
     );
 }
