@@ -5,9 +5,12 @@ import "../../../App.css";
 import Header from "../../shared/Header";
 import AddEmployee from "../../add/AddEmployee";
 import Page from "../../shared/Page";
+import EditEmployeeModal from "../../edit/EditEmployeeModal";
 
 const Employee = () => {
   const [employeeData, setEmployeeData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState([]);
 
   const fetchEmployee = () => {
     fetch(`${API_URL}Employee`, { method: "GET" })
@@ -77,7 +80,10 @@ const Employee = () => {
                     <td>{item.contractHours}</td>
                     <td>
                       <Tooltip title="Edit Employee">
-                        <Button>
+                        <Button onClick={() => {
+                          setModalOpen(true)
+                          setSelectedEmployee(item)
+                        }}>
                           <img
                             src="../src/assets/edit.png"
                             alt="edit-icon"
@@ -99,6 +105,14 @@ const Employee = () => {
                     </td>
                   </tr>
                 ))}
+
+                <EditEmployeeModal
+                  isOpen={modalOpen}
+                  onClose={() => {
+                    setModalOpen(false);
+                  }}
+                  employee={selectedEmployee}
+                />
               </tbody>
             </table>
           </Box>
