@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Box, Button, Typography, Paper, Modal, Tooltip, TextField } from "@mui/material";
 import { API_URL } from "../links/constants";
+import { ISelectedEmployee } from "../pages/employee/Employee";
 
 interface EditEmployeeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  employee: any[];
+  employee: ISelectedEmployee | null;
 }
 
 const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, employee }) => {
@@ -14,8 +15,49 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
 
   const [NameError, setNameError] = useState("");
   const [ContractHoursError, setContractHoursError] = useState("");
-  
+
   const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const fetchEditEmployee = () => {
+    setButtonDisabled(true);
+
+    const id = employee?.id;
+    const nameValid = Name.length >= 3;
+    const contractHoursValid = ContractHours.length >= 1;
+
+    if (!nameValid) setNameError("Please enter more than 3 characters");
+
+    if (!contractHoursValid)
+      setContractHoursError("Please enter more then 1 number");
+
+    if (Name && ContractHours) {
+      fetch(`${API_URL}Employee/UpdateEmployee/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          Name,
+          ContractHours,
+          UpdatePlannings: [],
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => {
+          setButtonDisabled(false);
+          if (!res.ok) {
+            return res.text().then((text) => {
+              console.log(text);
+            });
+          }
+          window.location.href = "/employees";
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+        });
+    } else {
+      setButtonDisabled(false);
+    }
+  };
 
   return (
     <Modal
@@ -64,7 +106,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
           }}
         >
           <TextField
-            label={employee.name}
+            label={employee?.name}
             helperText={
               NameError ? (
                 <Typography color="error">{NameError}</Typography>
@@ -77,7 +119,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
           ></TextField>
 
           <TextField
-            label={employee.contractHours}
+            label={employee?.contractHours}
             helperText={
               ContractHoursError ? (
                 <Typography color="error">{ContractHoursError}</Typography>
@@ -95,7 +137,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
               variant="outlined"
               color="primary"
               sx={{ marginTop: "4%" }}
-            //   onClick={fetchEditEmployee}
+              onClick={fetchEditEmployee}
             >
               Edit Employee
             </Button>

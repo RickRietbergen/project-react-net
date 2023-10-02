@@ -7,10 +7,17 @@ import AddEmployee from "../../add/AddEmployee";
 import Page from "../../shared/Page";
 import EditEmployeeModal from "../../edit/EditEmployeeModal";
 
+export interface ISelectedEmployee {
+  id: number;
+  name: string;
+  contractHours: number;
+}
+
 const Employee = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] =
+    useState<ISelectedEmployee | null>(null);
 
   const fetchEmployee = () => {
     fetch(`${API_URL}Employee`, { method: "GET" })
@@ -80,10 +87,12 @@ const Employee = () => {
                     <td>{item.contractHours}</td>
                     <td>
                       <Tooltip title="Edit Employee">
-                        <Button onClick={() => {
-                          setModalOpen(true)
-                          setSelectedEmployee(item)
-                        }}>
+                        <Button
+                          onClick={() => {
+                            setModalOpen(true);
+                            setSelectedEmployee(item);
+                          }}
+                        >
                           <img
                             src="../src/assets/edit.png"
                             alt="edit-icon"
