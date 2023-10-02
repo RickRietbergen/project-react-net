@@ -7,6 +7,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import { createTheme } from "@mui/material/styles";
 import Employee from "./components/pages/employee/Employee.tsx";
+import Project from "./components/pages/project/Project.tsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/employees",
     element: <Employee />,
+  },
+  {
+    path: "/projects",
+    element: <Project />,
   },
 ]);
 

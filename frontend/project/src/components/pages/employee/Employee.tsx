@@ -16,8 +16,7 @@ export interface ISelectedEmployee {
 const Employee = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] =
-    useState<ISelectedEmployee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<ISelectedEmployee | null>(null);
 
   const fetchEmployee = () => {
     fetch(`${API_URL}Employee`, { method: "GET" })
