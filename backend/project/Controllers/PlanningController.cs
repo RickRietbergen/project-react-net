@@ -4,6 +4,8 @@ using project.DataBase;
 using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using project.Models;
+using project.Entities;
 
 namespace project.Controllers
 {
@@ -36,6 +38,33 @@ namespace project.Controllers
             var json = JsonSerializer.Serialize(employeeWorkHours, options);
 
             return Ok(json);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditPlanning(int id, [FromBody] PlanningEditModel model)
+        {
+            var selectedPlanning = await dataContext.Planning.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (selectedPlanning == null)
+            {
+                return NotFound();
+            }
+
+            selectedPlanning.Week = model.Week;
+            selectedPlanning.Hours = model.Hours;
+
+            if (model.Projects != null)
+            {
+                selectedPlanning.Project.Name = model.projectName;
+            }
+            if (model.Employees != null)
+            {
+                selectedPlanning.Employee.Name = model.employeeName;
+            }
+
+            await dataContext.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
