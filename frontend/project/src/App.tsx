@@ -5,10 +5,24 @@ import "./App.css";
 import { API_URL } from "./components/links/constants";
 import Header from "./components/shared/Header";
 import Page from "./components/shared/Page";
+import { Button, Tooltip } from "@mui/material";
+import EditPlanningModal from "./components/pages/planning/EditPlanningModal";
+
+export interface ISelectedPlanning {
+  Id: number;
+  name: string;
+  Week: number;
+  Hours: number;
+  Project: { Name: string };
+  Employee: { Name: string };
+}
 
 const App = () => {
   const [planningData, setPlanningData] = useState([]);
   const [currentweek, setCurrentWeek] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlanning, setSelectedPlanning] = useState<ISelectedPlanning | null>(null);
 
   const fetchPlanning = () => {
     fetch(`${API_URL}Planning`, { method: "GET" })
@@ -33,8 +47,8 @@ const App = () => {
 
   return (
     <>
-      <Page title="Planning"/>
-      
+      <Page title="Planning" />
+
       <Box
         display={"flex"}
         alignItems={"center"}
@@ -66,30 +80,50 @@ const App = () => {
           {planningData.map((item: any, index: number) => (
             <Box
               key={index}
-              sx={{ width: "100%", height: "35%", backgroundColor: "grey" }}
+              sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
             >
               <Typography
-                sx={{
-                  fontSize: 25,
-                  fontWeight: 600,
-                  textAlign: "center",
-                  paddingTop: "10px",
-                }}
+                sx={{ width: "100%", height: "20%",fontSize: 25, fontWeight: 600, textAlign: "center", paddingTop: "10px" }}
               >
                 {item.Project.Name}
               </Typography>
               <Typography
-                sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+                sx={{ width: "100%", height: "20%", fontSize: 20, textAlign: "center", paddingTop: "10px" }}
               >
                 Total hours: {item.Hours}
               </Typography>
               <Typography
-                sx={{ fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+                sx={{ width: "100%", height: "20%", fontSize: 20, textAlign: "center", paddingTop: "10px" }}
               >
                 Werknemer: {item.Employee.Name}
               </Typography>
+              
+              <Box
+                sx={{ width: "100%", height: "40%", display: "flex", justifyContent: "center", alignItems: "center"}}
+              >
+                <Tooltip title="edit project">
+                  <Button onClick={() => {
+                    setModalOpen(true);
+                    setSelectedPlanning(item);
+                  }}>
+                    <img
+                      src="./src/assets/edit.png"
+                      alt="edit-icon"
+                      className="img"
+                    />
+                  </Button>
+                </Tooltip>
+              </Box>
             </Box>
           ))}
+
+          <EditPlanningModal
+                  isOpen={modalOpen}
+                  onClose={() => {
+                    setModalOpen(false);
+                  }}
+                  planning={selectedPlanning}
+                />
         </Box>
       </Box>
     </>
