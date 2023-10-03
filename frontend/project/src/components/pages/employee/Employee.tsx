@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Typography, Paper, Modal, Tooltip } from "@mui/material";
+import { Box, Button, Typography, Tooltip } from "@mui/material";
 import { API_URL } from "../../links/constants";
 import "../../../App.css";
 import Header from "../../shared/Header";
