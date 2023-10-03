@@ -10,7 +10,5 @@ namespace project.Models
         public int EmployeeId { get; set; }
         public string projectName { get; set; }
         public string employeeName { get; set; }
-        public List<Employee> Employees { get; set; }
-        public List<Project> Projects { get; set; }
     }
 }

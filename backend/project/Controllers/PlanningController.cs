@@ -40,10 +40,13 @@ namespace project.Controllers
             return Ok(json);
         }
 
-        [HttpPut]
+        [HttpPut("EditPlanning/{id}")]
         public async Task<IActionResult> EditPlanning(int id, [FromBody] PlanningEditModel model)
         {
-            var selectedPlanning = await dataContext.Planning.FirstOrDefaultAsync(x => x.Id == id);
+            var selectedPlanning = await dataContext.Planning
+                .Include(p => p.Project)
+                .Include(p => p.Employee)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (selectedPlanning == null)
             {
@@ -53,11 +56,11 @@ namespace project.Controllers
             selectedPlanning.Week = model.Week;
             selectedPlanning.Hours = model.Hours;
 
-            if (model.Projects != null)
+            if (model.projectName != null)
             {
                 selectedPlanning.Project.Name = model.projectName;
             }
-            if (model.Employees != null)
+            if (model.employeeName != null)
             {
                 selectedPlanning.Employee.Name = model.employeeName;
             }
