@@ -14,16 +14,15 @@ namespace project.Controllers
     public class PlanningController : ControllerBase
     {
         private readonly DatabaseContext dataContext;
+        public int currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         public PlanningController(DatabaseContext dataContext)
         {
             this.dataContext = dataContext;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetWeekWorkHours()
+        public async Task<ActionResult> GetWeekWorkHours(int currentweek)
         {
-            int currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
             var employeeWorkHours = await dataContext.Planning
                 .Include(p => p.Employee)
                 .Include(p => p.Project)
@@ -68,6 +67,28 @@ namespace project.Controllers
             await dataContext.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPut("AddWeek")]
+        public async Task<ActionResult> AddWeek([FromBody] PlanningWeekModel model)
+        {
+            if (model.Week != null)
+            {
+                currentWeek = model.Week + 1;
+
+                if (currentWeek == 53)
+                {
+                    currentWeek = 1;
+                }
+
+                var result = await GetWeekWorkHours(currentWeek);
+
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
