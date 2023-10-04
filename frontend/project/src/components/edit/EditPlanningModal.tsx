@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { Box, Button, Typography, Paper, Modal, Tooltip, TextField } from "@mui/material";
-import { API_URL } from "../../links/constants";
-import "../../../App.css";
-import { ISelectedPlanning } from "../../../App";
+import {
+  Box,
+  Button,
+  Typography,
+  Paper,
+  Modal,
+  Tooltip,
+  TextField,
+} from "@mui/material";
+import { API_URL } from "../links/constants";
+import "../../App.css";
+import { ISelectedPlanning } from "../../App";
 
 interface EditPlanningModalProps {
   isOpen: boolean;
@@ -10,7 +18,11 @@ interface EditPlanningModalProps {
   planning: ISelectedPlanning | null;
 }
 
-const EditPlanningModal: React.FC<EditPlanningModalProps> = ({ isOpen, onClose, planning }) => {
+const EditPlanningModal: React.FC<EditPlanningModalProps> = ({
+  isOpen,
+  onClose,
+  planning,
+}) => {
   const [Week, setWeek] = useState("");
   const [Hours, setHours] = useState("");
   const [ProjectName, setProjectName] = useState("");
@@ -34,8 +46,10 @@ const EditPlanningModal: React.FC<EditPlanningModalProps> = ({ isOpen, onClose, 
 
     if (!weekValid) setWeekError("Please enter more than 1 number");
     if (!hoursValid) setHoursError("Please enter more than 1 number");
-    if (!projectNameValid) setProjectNameError("Please enter more than 3 characters");
-    if (!employeeNameValid) setEmployeeNameError("Please enter more than 3 characters");
+    if (!projectNameValid)
+      setProjectNameError("Please enter more than 3 characters");
+    if (!employeeNameValid)
+      setEmployeeNameError("Please enter more than 3 characters");
 
     if (Week && Hours && ProjectName && EmployeeName) {
       fetch(`${API_URL}Planning/EditPlanning/${id}`, {
