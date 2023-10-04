@@ -69,8 +69,6 @@ const EditPlanningModal: React.FC<EditPlanningModalProps> = ({ isOpen, onClose, 
     }
   };
 
-  console.log(planning);
-
   return (
     <Modal
       open={isOpen}
