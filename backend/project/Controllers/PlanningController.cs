@@ -90,5 +90,27 @@ namespace project.Controllers
                 return NotFound();
             }
         }
+        [HttpPut("MinusWeek")]
+        public async Task<ActionResult> MinusWeek([FromBody] PlanningWeekModel model)
+        {
+            if (model.Week != null)
+            {
+                currentWeek = model.Week - 1;
+
+                if (currentWeek == 0)
+                {
+                    currentWeek = 52;
+                }
+
+                var result = await GetWeekWorkHours(currentWeek);
+
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }
