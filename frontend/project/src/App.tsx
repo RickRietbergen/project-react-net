@@ -68,6 +68,31 @@ const App = () => {
       });
   }
 
+  const MinusWeek = () => {
+    fetch(`${API_URL}Planning/MinusWeek`, {
+      method: "PUT",
+      body: JSON.stringify({ week: currentweek }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const parsedData = JSON.parse(data.value);
+        const dataArray = parsedData["$values"];
+        setCurrentWeek(dataArray[0].Week);
+        setPlanningData(dataArray);
+      })
+      .catch((error) => {
+        console.log("Error fetching week data:", error);
+      });
+  };
+
   useEffect(() => {
     fetchPlanning();
   }, []);
@@ -91,7 +116,7 @@ const App = () => {
           sx={{ width: "100%", height: "20%" }}
         >
           <Tooltip title="week eerder">
-            <Button>
+            <Button onClick={MinusWeek}>
               <img
                 src="./src/assets/left-arrow.png"
                 alt="left arrow"
