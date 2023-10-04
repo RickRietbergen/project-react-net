@@ -18,8 +18,8 @@ export interface ISelectedPlanning {
 }
 
 const App = () => {
-  const [planningData, setPlanningData] = useState([]);
-  const [currentweek, setCurrentWeek] = useState("");
+  const [planningData, setPlanningData] = useState<ISelectedPlanning[]>([]);
+  const [currentweek, setCurrentWeek] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlanning, setSelectedPlanning] = useState<ISelectedPlanning | null>(null);
@@ -33,13 +33,40 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
-        setCurrentWeek(data.$values[0].Week);
+        if (data && data.$values && data.$values.length > 0) {
+          setCurrentWeek(data.$values[0].Week);
+        }
         setPlanningData(data.$values);
       })
       .catch((error) => {
         console.log("Error fetching planning data:", error);
       });
   };
+
+  const AddWeek = () => {
+    fetch(`${API_URL}Planning/AddWeek`, {
+      method: "PUT",
+      body: JSON.stringify({ week: currentweek }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const parsedData = JSON.parse(data.value);
+        const dataArray = parsedData["$values"];
+        setCurrentWeek(dataArray[0].Week)
+        setPlanningData(dataArray);
+      })
+      .catch((error) => {
+        console.log("Error fetching week data:", error);
+      });
+  }
 
   useEffect(() => {
     fetchPlanning();
@@ -63,27 +90,43 @@ const App = () => {
           alignItems={"center"}
           sx={{ width: "100%", height: "20%" }}
         >
-          <Typography sx={{ fontSize: 30, fontWeight: "bold" }}>
+          <Tooltip title="week eerder">
+            <Button>
+              <img
+                src="./src/assets/left-arrow.png"
+                alt="left arrow"
+                className="img"
+              />
+            </Button>
+          </Tooltip>
+
+          <Typography sx={{ marginLeft: "2%", marginRight: "2%", fontSize: 30, fontWeight: "bold" }}>
             Week {currentweek}
           </Typography>
+
+          <Tooltip title="week later">
+            <Button onClick={AddWeek}>
+              <img
+                src="./src/assets/right-arrow.png"
+                alt="right arrow"
+                className="img"
+              />
+            </Button>
+          </Tooltip>
         </Box>
 
         <Box
           display={"grid"}
           gridTemplateColumns={"repeat(4, 1fr)"}
-          sx={{
-            width: "100%",
-            height: "70%",
-            gap: "26px",
-          }}
+          sx={{ width: "100%", height: "70%", gap: "26px" }}
         >
-          {planningData.map((item: any, index: number) => (
+          {planningData.map((item: ISelectedPlanning, index: number) => (
             <Box
               key={index}
               sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
             >
               <Typography
-                sx={{ width: "100%", height: "20%",fontSize: 25, fontWeight: 600, textAlign: "center", paddingTop: "10px" }}
+                sx={{ width: "100%", height: "20%", fontSize: 25, fontWeight: 600, textAlign: "center", paddingTop: "10px" }}
               >
                 {item.Project.Name}
               </Typography>
@@ -97,15 +140,17 @@ const App = () => {
               >
                 Werknemer: {item.Employee.Name}
               </Typography>
-              
+
               <Box
                 sx={{ width: "100%", height: "40%", display: "flex", justifyContent: "center", alignItems: "center"}}
               >
                 <Tooltip title="edit project">
-                  <Button onClick={() => {
-                    setModalOpen(true);
-                    setSelectedPlanning(item);
-                  }}>
+                  <Button
+                    onClick={() => {
+                      setModalOpen(true);
+                      setSelectedPlanning(item);
+                    }}
+                  >
                     <img
                       src="./src/assets/edit.png"
                       alt="edit-icon"
@@ -118,12 +163,12 @@ const App = () => {
           ))}
 
           <EditPlanningModal
-                  isOpen={modalOpen}
-                  onClose={() => {
-                    setModalOpen(false);
-                  }}
-                  planning={selectedPlanning}
-                />
+            isOpen={modalOpen}
+            onClose={() => {
+              setModalOpen(false);
+            }}
+            planning={selectedPlanning}
+          />
         </Box>
       </Box>
     </>
