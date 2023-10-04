@@ -6,7 +6,7 @@ import { API_URL } from "./components/links/constants";
 import Header from "./components/shared/Header";
 import Page from "./components/shared/Page";
 import { Button, Tooltip } from "@mui/material";
-import EditPlanningModal from "./components/pages/planning/EditPlanningModal";
+import EditPlanningModal from "./components/edit/EditPlanningModal";
 
 export interface ISelectedPlanning {
   Id: number;
@@ -43,6 +43,17 @@ const App = () => {
       });
   };
 
+  const DeletePlanning = (id: number) => {
+    fetch(`${API_URL}Planning/DeletePlanning/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((error) => {
+      console.log("Error deleting planning:", error);
+    });
+  }
+
   const AddWeek = () => {
     fetch(`${API_URL}Planning/AddWeek`, {
       method: "PUT",
@@ -60,13 +71,13 @@ const App = () => {
       .then((data) => {
         const parsedData = JSON.parse(data.value);
         const dataArray = parsedData["$values"];
-        setCurrentWeek(dataArray[0].Week)
+        setCurrentWeek(dataArray[0].Week);
         setPlanningData(dataArray);
       })
       .catch((error) => {
         console.log("Error fetching week data:", error);
       });
-  }
+  };
 
   const MinusWeek = () => {
     fetch(`${API_URL}Planning/MinusWeek`, {
@@ -125,7 +136,14 @@ const App = () => {
             </Button>
           </Tooltip>
 
-          <Typography sx={{ marginLeft: "2%", marginRight: "2%", fontSize: 30, fontWeight: "bold" }}>
+          <Typography
+            sx={{
+              marginLeft: "2%",
+              marginRight: "2%",
+              fontSize: 30,
+              fontWeight: "bold",
+            }}
+          >
             Week {currentweek}
           </Typography>
 
@@ -151,23 +169,48 @@ const App = () => {
               sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
             >
               <Typography
-                sx={{ width: "100%", height: "20%", fontSize: 25, fontWeight: 600, textAlign: "center", paddingTop: "10px" }}
+                sx={{
+                  width: "100%",
+                  height: "20%",
+                  fontSize: 25,
+                  fontWeight: 600,
+                  textAlign: "center",
+                  paddingTop: "10px",
+                }}
               >
                 {item.Project.Name}
               </Typography>
               <Typography
-                sx={{ width: "100%", height: "20%", fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+                sx={{
+                  width: "100%",
+                  height: "20%",
+                  fontSize: 20,
+                  textAlign: "center",
+                  paddingTop: "10px",
+                }}
               >
                 Total hours: {item.Hours}
               </Typography>
               <Typography
-                sx={{ width: "100%", height: "20%", fontSize: 20, textAlign: "center", paddingTop: "10px" }}
+                sx={{
+                  width: "100%",
+                  height: "20%",
+                  fontSize: 20,
+                  textAlign: "center",
+                  paddingTop: "10px",
+                }}
               >
                 Werknemer: {item.Employee.Name}
               </Typography>
 
               <Box
-                sx={{ width: "100%", height: "40%", display: "flex", justifyContent: "center", alignItems: "center"}}
+                sx={{
+                  width: "100%",
+                  height: "40%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
                 <Tooltip title="edit project">
                   <Button
@@ -179,6 +222,16 @@ const App = () => {
                     <img
                       src="./src/assets/edit.png"
                       alt="edit-icon"
+                      className="img"
+                    />
+                  </Button>
+                </Tooltip>
+
+                <Tooltip title="delete project">
+                  <Button onClick={() => DeletePlanning(item.Id)}>
+                    <img
+                      src="./src/assets/delete.png"
+                      alt="delete-icon"
                       className="img"
                     />
                   </Button>
