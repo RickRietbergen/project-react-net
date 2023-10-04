@@ -61,9 +61,43 @@ namespace project.Controllers
             }
             if (model.employeeName != null)
             {
-                selectedPlanning.Employee.Name = model.employeeName;
+                bool hasEmployeeName = await dataContext.Employees.AnyAsync(x => x.Name == model.employeeName);
+
+                if (hasEmployeeName)
+                {
+                    bool totalWorkHours = await dataContext.Employees.AnyAsync(x => x.ContractHours >= selectedPlanning.Hours);
+
+                    if (totalWorkHours)
+                    {
+                        selectedPlanning.Employee.Name = model.employeeName;
+                    }
+                    else
+                    {
+                        return BadRequest("Werknemer heeft te weinig contract uren.");
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
 
+            await dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("DeletePlanning/{id}")]
+        public async Task<IActionResult> DeletePlanning(int id)
+        {
+            var planning = await dataContext.Planning.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (planning == null) 
+            { 
+                return NotFound();
+            }
+
+            dataContext.Remove(planning);
             await dataContext.SaveChangesAsync();
 
             return Ok();
