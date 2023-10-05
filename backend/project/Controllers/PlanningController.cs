@@ -78,6 +78,14 @@ namespace project.Controllers
         [HttpPut("EditPlanning/{id}")]
         public async Task<IActionResult> EditPlanning(int id, [FromBody] PlanningEditModel model)
         {
+            var project = await dataContext.Projects.FindAsync(model.ProjectId);
+            var employee = await dataContext.Employees.FindAsync(model.EmployeeId);
+
+            if (employee == null || project == null)
+            {
+                return NotFound("Project or Employee not found.");
+            }
+
             var selectedPlanning = await dataContext.Planning
                 .Include(p => p.Project)
                 .Include(p => p.Employee)
@@ -90,33 +98,8 @@ namespace project.Controllers
 
             selectedPlanning.Week = model.Week;
             selectedPlanning.Hours = model.Hours;
-
-            if (model.projectName != null)
-            {
-                selectedPlanning.Project.Name = model.projectName;
-            }
-            if (model.employeeName != null)
-            {
-                bool hasEmployeeName = await dataContext.Employees.AnyAsync(x => x.Name == model.employeeName);
-
-                if (hasEmployeeName)
-                {
-                    bool totalWorkHours = await dataContext.Employees.AnyAsync(x => x.ContractHours >= selectedPlanning.Hours);
-
-                    if (totalWorkHours)
-                    {
-                        selectedPlanning.Employee.Name = model.employeeName;
-                    }
-                    else
-                    {
-                        return BadRequest("Werknemer heeft te weinig contract uren.");
-                    }
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
+            selectedPlanning.Project = project;
+            selectedPlanning.Employee = employee;
 
             await dataContext.SaveChangesAsync();
 
