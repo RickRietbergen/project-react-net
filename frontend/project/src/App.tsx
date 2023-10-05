@@ -34,6 +34,7 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         if (data && data.$values && data.$values.length > 0) {
           setCurrentWeek(data.$values[0].Week);
         }
@@ -50,7 +51,15 @@ const App = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).catch((error) => {
+    })
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = "/";
+      } else {
+        console.log("Error deleting planning:", response.statusText);
+      }
+    })
+    .catch((error) => {
       console.log("Error deleting planning:", error);
     });
   }
@@ -58,7 +67,7 @@ const App = () => {
   const AddWeek = () => {
     fetch(`${API_URL}Planning/AddWeek`, {
       method: "PUT",
-      body: JSON.stringify({ week: currentweek }),
+      body: JSON.stringify({ Week: currentweek }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -72,6 +81,7 @@ const App = () => {
       .then((data) => {
         const parsedData = JSON.parse(data.value);
         const dataArray = parsedData["$values"];
+        console.log(dataArray);
         setCurrentWeek(dataArray[0].Week);
         setPlanningData(dataArray);
       })
@@ -83,7 +93,7 @@ const App = () => {
   const MinusWeek = () => {
     fetch(`${API_URL}Planning/MinusWeek`, {
       method: "PUT",
-      body: JSON.stringify({ week: currentweek }),
+      body: JSON.stringify({ Week: currentweek }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -171,18 +181,21 @@ const App = () => {
               key={index}
               sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
             >
-              <Typography
-                sx={{
-                  width: "100%",
-                  height: "22.5%",
-                  fontSize: 25,
-                  fontWeight: 600,
-                  textAlign: "center",
-                  paddingTop: "10px",
-                }}
-              >
-                {item.Project.Name}
-              </Typography>
+              {item.Project && ( 
+                <Typography
+                  sx={{
+                    width: "100%",
+                    height: "22.5%",
+                    fontSize: 25,
+                    fontWeight: 600,
+                    textAlign: "center",
+                    paddingTop: "10px",
+                  }}
+                >
+                  {item.Project.Name}
+                </Typography>
+              )}
+
               <Typography
                 sx={{
                   width: "100%",
@@ -194,17 +207,21 @@ const App = () => {
               >
                 Total hours: {item.Hours}
               </Typography>
-              <Typography
-                sx={{
-                  width: "100%",
-                  height: "22.5%",
-                  fontSize: 20,
-                  textAlign: "center",
-                  paddingTop: "10px",
-                }}
-              >
-                Werknemer: {item.Employee.Name}
-              </Typography>
+
+              {item.Project && ( 
+                <Typography
+                  sx={{
+                    width: "100%",
+                    height: "22.5%",
+                    fontSize: 20,
+                    textAlign: "center",
+                    paddingTop: "10px",
+                  }}
+                >
+                  Werknemer: {item.Employee.Name}
+                </Typography>
+              )}
+
 
               <Box
                 sx={{
