@@ -39,6 +39,30 @@ namespace project.Controllers
             return Ok(json);
         }
 
+        [HttpPost("PlanningCreate")]
+        public async Task<IActionResult> CreatePlanning(PlanningCreateModel model)
+        {
+            var project = await dataContext.Projects.FindAsync(model.ProjectId);
+            var employee = await dataContext.Employees.FindAsync(model.EmployeeId);
+
+            if (employee == null || project == null)
+            {
+                return NotFound("Project or Employee not found.");
+            }
+            var planning = new Planning
+            {
+                Week = model.Week,
+                Hours = model.Hours,
+                Project = project,
+                Employee = employee,
+            };
+
+            await dataContext.Planning.AddAsync(planning);
+            await dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPut("EditPlanning/{id}")]
         public async Task<IActionResult> EditPlanning(int id, [FromBody] PlanningEditModel model)
         {
