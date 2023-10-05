@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using project.Models;
 using project.Entities;
+using System.Diagnostics;
 
 namespace project.Controllers
 {
@@ -28,14 +29,15 @@ namespace project.Controllers
                 .Include(p => p.Project)
                 .Where(p => p.Week == currentWeek)
                 .ToListAsync();
-
+            
             var options = new JsonSerializerOptions
             {
-                ReferenceHandler = ReferenceHandler.Preserve
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true
             };
 
             var json = JsonSerializer.Serialize(employeeWorkHours, options);
-
+            Debug.WriteLine(json);
             return Ok(json);
         }
 
@@ -49,6 +51,7 @@ namespace project.Controllers
             {
                 return NotFound("Project or Employee not found.");
             }
+
             var planning = new Planning
             {
                 Week = model.Week,
@@ -57,10 +60,19 @@ namespace project.Controllers
                 Employee = employee,
             };
 
-            await dataContext.Planning.AddAsync(planning);
-            await dataContext.SaveChangesAsync();
+            var result = await GetRemainingHours(planning.Employee.Id, model.Hours, model.Week);
 
-            return Ok();
+            if (result)
+            {
+                await dataContext.Planning.AddAsync(planning);
+                await dataContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Employee heeft niet genoeg contract uren om die persoon in te plannen.");
+            }
         }
 
         [HttpPut("EditPlanning/{id}")]
@@ -145,7 +157,7 @@ namespace project.Controllers
             }
             else
             {
-                return NotFound();
+                return BadRequest();
             }
         }
         [HttpPut("MinusWeek")]
@@ -171,23 +183,28 @@ namespace project.Controllers
         }
 
         [HttpGet("GetRemainingHours")]
-        public async Task<IActionResult> GetRemainingHours(int id)
+        public async Task<bool> GetRemainingHours(int id, int projectHours, int week)
         {
             var employee = await dataContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (employee == null)
             {
-                return NotFound("Employee not found.");
+                return false;
             }
 
-            var employeeHours = dataContext.Planning.Where(x => x.Employee == employee && x.Week == currentWeek).Sum(h => h.Hours);
+            var employeeHours = dataContext.Planning.Where(x => x.Employee == employee && x.Week == week).Sum(h => h.Hours);
 
-            if (employeeHours > employee.ContractHours)
+            var totalHoursPlannedIn = employeeHours + projectHours;
+
+            if (totalHoursPlannedIn > employee.ContractHours)
             {
-                return BadRequest("Employee heeft niet genoeg contract uren om die persoon in te plannen.");
+                return false;
+            }
+            else
+            {
+                return true;
             }
 
-            return Ok();
         }
     }
 }
