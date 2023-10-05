@@ -11,8 +11,8 @@ using project.DataBase;
 namespace project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230927202944_Planning")]
-    partial class Planning
+    [Migration("20231005173246_Plannings")]
+    partial class Plannings
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,13 +93,13 @@ namespace project.Migrations
             modelBuilder.Entity("project.Entities.Planning", b =>
                 {
                     b.HasOne("project.Entities.Employee", "Employee")
-                        .WithMany("Planningen")
+                        .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("project.Entities.Project", "Project")
-                        .WithMany("Planningen")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -107,16 +107,6 @@ namespace project.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("project.Entities.Employee", b =>
-                {
-                    b.Navigation("Planningen");
-                });
-
-            modelBuilder.Entity("project.Entities.Project", b =>
-                {
-                    b.Navigation("Planningen");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,7 +24,6 @@ namespace project.Controllers
             var newProject = new Project
             {
                 Name = model.Name,
-                Planningen = new List<Planning>(),
             };
 
             await dataContext.Projects.AddAsync(newProject);
@@ -61,18 +60,18 @@ namespace project.Controllers
 
             project.Name = model.Name;
 
-            if (model.UpdatePlannings != null)
-            {
-                foreach (var updatedPlanning in model.UpdatePlannings)
-                {
-                    var existingPlanning = project.Planningen.FirstOrDefault(p => p.Id == updatedPlanning.Id);
-                    if (existingPlanning != null)
-                    {
-                        existingPlanning.Week = updatedPlanning.Week;
-                        existingPlanning.Hours = updatedPlanning.Hours;
-                    }
-                }
-            }
+            //if (model.UpdatePlannings != null)
+            //{
+            //    foreach (var updatedPlanning in model.UpdatePlannings)
+            //    {
+            //        var existingPlanning = project.Planningen.FirstOrDefault(p => p.Id == updatedPlanning.Id);
+            //        if (existingPlanning != null)
+            //        {
+            //            existingPlanning.Week = updatedPlanning.Week;
+            //            existingPlanning.Hours = updatedPlanning.Hours;
+            //        }
+            //    }
+            //}
 
             await dataContext.SaveChangesAsync();
 
