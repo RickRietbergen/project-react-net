@@ -170,5 +170,24 @@ namespace project.Controllers
             }
         }
 
+        [HttpGet("GetRemainingHours")]
+        public async Task<IActionResult> GetRemainingHours(int id)
+        {
+            var employee = await dataContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (employee == null)
+            {
+                return NotFound("Employee not found.");
+            }
+
+            var employeeHours = dataContext.Planning.Where(x => x.Employee == employee && x.Week == currentWeek).Sum(h => h.Hours);
+
+            if (employeeHours > employee.ContractHours)
+            {
+                return BadRequest("Employee heeft niet genoeg contract uren om die persoon in te plannen.");
+            }
+
+            return Ok();
+        }
     }
 }
