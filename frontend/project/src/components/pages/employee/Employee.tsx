@@ -40,6 +40,13 @@ const Employee = () => {
       headers: {
         "Content-Type": "application/json",
       },
+    })
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = "/employees";
+      } else {
+        console.log("Error deleting employee:", response.statusText);
+      }
     }).catch((error) => {
       console.log("Error deleting employee:", error);
     });

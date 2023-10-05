@@ -39,10 +39,17 @@ const Project = () => {
         headers: {
           "Content-Type": "application/json",
         },
+      })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/projects";
+        } else {
+          console.log("Error deleting project:", response.statusText);
+        }
       }).catch((error) => {
-        console.log("Error deleting project:", error);
-      });
-    };
+          console.log("Error deleting project:", error);
+        });
+      };
 
     useEffect(() => {
       fetchProject();
