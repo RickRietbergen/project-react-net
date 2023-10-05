@@ -23,7 +23,6 @@ namespace project.Controllers
             {
                 Name = model.Name,
                 ContractHours = model.ContractHours,
-                Planningen = new List<Planning>(),
             };
 
             await dataContext.Employees.AddAsync(newEmployee);
@@ -60,19 +59,20 @@ namespace project.Controllers
 
             employee.Name = model.Name;
             employee.ContractHours = model.ContractHours;
+            //existingPlanning.Week = updatedPlanning.Week;
+            //existingPlanning.Hours = updatedPlanning.Hours;
 
-            if (model.UpdatePlannings !=  null)
-            {
-                foreach (var updatedPlanning in model.UpdatePlannings)
-                {
-                    var existingPlanning = employee.Planningen.FirstOrDefault(p => p.Id == updatedPlanning.Id);
-                    if (existingPlanning != null)
-                    {
-                        existingPlanning.Week = updatedPlanning.Week;
-                        existingPlanning.Hours = updatedPlanning.Hours;
-                    }
-                }
-            }
+            //if (model.UpdatePlannings !=  null)
+            //{
+            //    foreach (var updatedPlanning in model.UpdatePlannings)
+            //    {
+            //        var existingPlanning = employee.Planningen.FirstOrDefault(p => p.Id == updatedPlanning.Id);
+            //        if (existingPlanning != null)
+            //        {
+                        
+            //        }
+            //    }
+            //}
 
             await dataContext.SaveChangesAsync();
 
