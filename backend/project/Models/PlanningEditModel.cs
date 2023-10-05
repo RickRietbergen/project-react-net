@@ -8,7 +8,5 @@ namespace project.Models
         public int Hours { get; set; }
         public int ProjectId { get; set; }
         public int EmployeeId { get; set; }
-        public string projectName { get; set; }
-        public string employeeName { get; set; }
     }
 }
