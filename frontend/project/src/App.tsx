@@ -7,6 +7,7 @@ import Header from "./components/shared/Header";
 import Page from "./components/shared/Page";
 import { Button, Tooltip } from "@mui/material";
 import EditPlanningModal from "./components/edit/EditPlanningModal";
+import AddPlanning from "./components/add/AddPlanning";
 
 export interface ISelectedPlanning {
   Id: number;
@@ -158,10 +159,12 @@ const App = () => {
           </Tooltip>
         </Box>
 
+        <AddPlanning />
+
         <Box
           display={"grid"}
-          gridTemplateColumns={"repeat(4, 1fr)"}
-          sx={{ width: "100%", height: "70%", gap: "26px" }}
+          gridTemplateColumns={"repeat(6, 1fr)"}
+          sx={{ width: "100%", height: "60%", gap: "26px" }}
         >
           {planningData.map((item: ISelectedPlanning, index: number) => (
             <Box
@@ -171,7 +174,7 @@ const App = () => {
               <Typography
                 sx={{
                   width: "100%",
-                  height: "20%",
+                  height: "22.5%",
                   fontSize: 25,
                   fontWeight: 600,
                   textAlign: "center",
@@ -183,7 +186,7 @@ const App = () => {
               <Typography
                 sx={{
                   width: "100%",
-                  height: "20%",
+                  height: "22.5%",
                   fontSize: 20,
                   textAlign: "center",
                   paddingTop: "10px",
@@ -194,7 +197,7 @@ const App = () => {
               <Typography
                 sx={{
                   width: "100%",
-                  height: "20%",
+                  height: "22.5%",
                   fontSize: 20,
                   textAlign: "center",
                   paddingTop: "10px",
@@ -206,7 +209,7 @@ const App = () => {
               <Box
                 sx={{
                   width: "100%",
-                  height: "40%",
+                  height: "32.5%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
