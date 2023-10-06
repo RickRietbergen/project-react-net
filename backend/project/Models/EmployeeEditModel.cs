@@ -6,6 +6,5 @@ namespace project.Models
     {
         public string Name { get; set; }
         public int ContractHours { get; set; }
-        public List<Planning> UpdatePlannings { get; set; }
     }
 }
