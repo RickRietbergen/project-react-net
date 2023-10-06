@@ -20,10 +20,22 @@ export interface ISelectedPlanning {
 
 const App = () => {
   const [planningData, setPlanningData] = useState<ISelectedPlanning[]>([]);
-  const [currentweek, setCurrentWeek] = useState(0);
-
+  const [currentweek, setCurrentWeek] = useState(getWeekNumber(new Date()));
+  
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlanning, setSelectedPlanning] = useState<ISelectedPlanning | null>(null);
+  
+  function getWeekNumber(date: Date): number {
+    const currentDate = new Date(date);
+    currentDate.setHours(0, 0, 0, 0);
+    currentDate.setDate(
+      currentDate.getDate() + 3 - ((currentDate.getDay() + 6) % 7)
+    );
+    const startDate = new Date(currentDate.getFullYear(), 0, 4);
+    return (
+      1 + Math.round((currentDate.getTime() - startDate.getTime()) / 604800000)
+    );
+  }
 
   const fetchPlanning = () => {
     fetch(`${API_URL}Planning`, { method: "GET" })
