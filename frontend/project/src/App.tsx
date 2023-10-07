@@ -46,11 +46,8 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        if (data && data.$values && data.$values.length > 0) {
-          setCurrentWeek(data.$values[0].Week);
-        }
-        setPlanningData(data.$values);
+        setPlanningData(data.EmployeeWorkHours.$values);
+        setCurrentWeek(data.CurrentWeek);
       })
       .catch((error) => {
         console.log("Error fetching planning data:", error);
@@ -92,10 +89,8 @@ const App = () => {
       })
       .then((data) => {
         const parsedData = JSON.parse(data.value);
-        const dataArray = parsedData["$values"];
-        console.log(dataArray);
-        setCurrentWeek(dataArray[0].Week);
-        setPlanningData(dataArray);
+        setCurrentWeek(parsedData.CurrentWeek);
+        setPlanningData(parsedData.EmployeeWorkHours.$values);
       })
       .catch((error) => {
         console.log("Error fetching week data:", error);
@@ -118,9 +113,8 @@ const App = () => {
       })
       .then((data) => {
         const parsedData = JSON.parse(data.value);
-        const dataArray = parsedData["$values"];
-        setCurrentWeek(dataArray[0].Week);
-        setPlanningData(dataArray);
+        setCurrentWeek(parsedData.CurrentWeek);
+        setPlanningData(parsedData.EmployeeWorkHours.$values);
       })
       .catch((error) => {
         console.log("Error fetching week data:", error);

@@ -29,14 +29,20 @@ namespace project.Controllers
                 .Include(p => p.Project)
                 .Where(p => p.Week == currentWeek)
                 .ToListAsync();
-            
+
+            var result = new
+            {
+                CurrentWeek = currentWeek,
+                EmployeeWorkHours = employeeWorkHours
+            };
+
             var options = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.Preserve,
                 WriteIndented = true
             };
 
-            var json = JsonSerializer.Serialize(employeeWorkHours, options);
+            var json = JsonSerializer.Serialize(result, options);
             Debug.WriteLine(json);
             return Ok(json);
         }
