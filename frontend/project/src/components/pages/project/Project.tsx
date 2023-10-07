@@ -129,7 +129,7 @@ const Project = () => {
               </table>
             </Box>
           ) : (
-            <Typography>Geen werknemersgegevens beschikbaar.</Typography>
+            <Typography>Geen projectengegevens beschikbaar.</Typography>
           )}
         </Box>
       </>
