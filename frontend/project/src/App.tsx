@@ -182,39 +182,29 @@ const App = () => {
           gridTemplateColumns={"repeat(6, 1fr)"}
           sx={{ width: "100%", height: "60%", gap: "26px" }}
         >
-          {planningData.map((item: ISelectedPlanning, index: number) => (
-            <Box
-              key={index}
-              sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
-            >
-              {item.Project && ( 
-                <Typography
-                  sx={{
-                    width: "100%",
-                    height: "22.5%",
-                    fontSize: 25,
-                    fontWeight: 600,
-                    textAlign: "center",
-                    paddingTop: "10px",
-                  }}
-                >
-                  {item.Project.Name}
-                </Typography>
-              )}
-
-              <Typography
-                sx={{
-                  width: "100%",
-                  height: "22.5%",
-                  fontSize: 20,
-                  textAlign: "center",
-                  paddingTop: "10px",
-                }}
+          {planningData &&
+          Array.isArray(planningData) &&
+          planningData.length > 0 ? (
+            planningData.map((item: ISelectedPlanning, index: number) => (
+              <Box
+                key={index}
+                sx={{ width: "100%", height: "40%", backgroundColor: "grey" }}
               >
-                Total hours: {item.Hours}
-              </Typography>
+                {item.Project && (
+                  <Typography
+                    sx={{
+                      width: "100%",
+                      height: "22.5%",
+                      fontSize: 25,
+                      fontWeight: 600,
+                      textAlign: "center",
+                      paddingTop: "10px",
+                    }}
+                  >
+                    {item.Project.Name}
+                  </Typography>
+                )}
 
-              {item.Project && ( 
                 <Typography
                   sx={{
                     width: "100%",
@@ -224,47 +214,71 @@ const App = () => {
                     paddingTop: "10px",
                   }}
                 >
-                  Werknemer: {item.Employee.Name}
+                  Total hours: {item.Hours}
                 </Typography>
-              )}
 
-
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "32.5%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Tooltip title="edit project">
-                  <Button
-                    onClick={() => {
-                      setModalOpen(true);
-                      setSelectedPlanning(item);
+                {item.Project && (
+                  <Typography
+                    sx={{
+                      width: "100%",
+                      height: "22.5%",
+                      fontSize: 20,
+                      textAlign: "center",
+                      paddingTop: "10px",
                     }}
                   >
-                    <img
-                      src="./src/assets/edit.png"
-                      alt="edit-icon"
-                      className="img"
-                    />
-                  </Button>
-                </Tooltip>
+                    Werknemer: {item.Employee.Name}
+                  </Typography>
+                )}
 
-                <Tooltip title="delete project">
-                  <Button onClick={() => DeletePlanning(item.Id)}>
-                    <img
-                      src="./src/assets/delete.png"
-                      alt="delete-icon"
-                      className="img"
-                    />
-                  </Button>
-                </Tooltip>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "32.5%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Tooltip title="edit project">
+                    <Button
+                      onClick={() => {
+                        setModalOpen(true);
+                        setSelectedPlanning(item);
+                      }}
+                    >
+                      <img
+                        src="./src/assets/edit.png"
+                        alt="edit-icon"
+                        className="img"
+                      />
+                    </Button>
+                  </Tooltip>
+
+                  <Tooltip title="delete project">
+                    <Button onClick={() => DeletePlanning(item.Id)}>
+                      <img
+                        src="./src/assets/delete.png"
+                        alt="delete-icon"
+                        className="img"
+                      />
+                    </Button>
+                  </Tooltip>
+                </Box>
               </Box>
+            ))
+          ) : (
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              sx={{ width: "100%", textAlign: "center" }}
+            >
+              <Typography sx={{ textAlign: "center" }}>
+                Geen planningsgegevens gevonden.
+              </Typography>
             </Box>
-          ))}
+          )}
 
           <EditPlanningModal
             isOpen={modalOpen}
