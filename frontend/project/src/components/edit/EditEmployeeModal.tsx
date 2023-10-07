@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Typography, Paper, Modal, Tooltip, TextField } from "@mui/material";
 import { API_URL } from "../links/constants";
 import { ISelectedEmployee } from "../pages/employee/Employee";
@@ -36,7 +36,6 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
         body: JSON.stringify({
           Name,
           ContractHours,
-          UpdatePlannings: [],
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -58,6 +57,13 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
       setButtonDisabled(false);
     }
   };
+
+  useEffect(() => {
+    if (employee) {
+      setName(employee.name || "");
+      setContractHours(employee.contractHours.toString() || "");
+    }
+  }, [employee]);
 
   return (
     <Modal
@@ -112,6 +118,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
                 <Typography color="error">{NameError}</Typography>
               ) : null
             }
+            value={Name}
             sx={{ marginTop: "7.5%" }}
             onChange={(e) => {
               setName(e.target.value);
@@ -125,6 +132,7 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onClose, 
                 <Typography color="error">{ContractHoursError}</Typography>
               ) : null
             }
+            value={ContractHours}
             sx={{ marginTop: "4%" }}
             onChange={(e) => {
               setContractHours(e.target.value);

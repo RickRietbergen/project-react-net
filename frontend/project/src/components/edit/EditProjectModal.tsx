@@ -29,7 +29,6 @@ const EditProjectModal: React.FC<EditProjectModalProps> = ({ isOpen, onClose, pr
         method: "PUT",
         body: JSON.stringify({
           Name,
-          UpdatePlannings: [],
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
