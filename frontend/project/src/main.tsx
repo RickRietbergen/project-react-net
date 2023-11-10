@@ -8,6 +8,7 @@ import { SnackbarProvider } from "notistack";
 import { createTheme } from "@mui/material/styles";
 import Employee from "./components/pages/employee/Employee.tsx";
 import Project from "./components/pages/project/Project.tsx";
+import Dashboard from "./components/pages/dashboard/Dashboard.tsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/projects",
     element: <Project />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
 ]);
 
