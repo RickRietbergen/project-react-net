@@ -6,7 +6,7 @@ const NewHeader = () => {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          sx={{ width: "250px", height: "100%" }}
+          sx={{ width: "300px", height: "100%" }}
         >
           <Box
             display={"flex"}
