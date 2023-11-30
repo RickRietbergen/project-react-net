@@ -1,6 +1,6 @@
 import { Box, Button, Typography, Paper, Modal, Tooltip, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import NewHeader from "../../shared/NewHeader";
 import Page from "../../shared/Page";
+import Header from "../../shared/Header";
 
 const Dashboard = () => {
     return (
@@ -11,7 +11,7 @@ const Dashboard = () => {
                 display={"flex"}
                 sx={{ width: "100%", height: "100vh" }}
             >
-                <NewHeader />
+                <Header />
 
             </Box>
         </>
