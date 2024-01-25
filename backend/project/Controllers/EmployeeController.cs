@@ -8,7 +8,7 @@ namespace project.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController : BaseController
     {
         private readonly DatabaseContext dataContext;
         public EmployeeController(DatabaseContext dataContext) 
@@ -21,7 +21,7 @@ namespace project.Controllers
         {
             var newEmployee = new Employee
             {
-                Name = model.Name,
+                Username = model.Username,
                 ContractHours = model.ContractHours,
             };
 
@@ -57,7 +57,7 @@ namespace project.Controllers
                 return NotFound();
             }
 
-            employee.Name = model.Name;
+            employee.Username = model.Username;
             employee.ContractHours = model.ContractHours;
 
             await dataContext.SaveChangesAsync();

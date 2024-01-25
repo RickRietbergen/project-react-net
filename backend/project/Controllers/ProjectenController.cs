@@ -9,7 +9,7 @@ namespace project.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProjectenController : ControllerBase
+    public class ProjectenController : BaseController
     {
         private readonly DatabaseContext dataContext;
 

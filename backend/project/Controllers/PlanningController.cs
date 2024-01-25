@@ -12,7 +12,7 @@ namespace project.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PlanningController : ControllerBase
+    public class PlanningController : BaseController
     {
         private readonly DatabaseContext dataContext;
         public int currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
