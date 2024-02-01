@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using project.Attributes;
 using project.DataBase;
 using project.Entities;
+using project.Enums;
 using project.Models;
+using System.Security.Cryptography;
 
 namespace project.Controllers
 {
@@ -17,6 +21,7 @@ namespace project.Controllers
         }
 
         [HttpPost("EmployeeCreate")]
+        [JWTAuth(Role.werknemer)]
         public async Task<IActionResult> Post(EmployeeCreateModel model)
         {
             var newEmployee = new Employee
