@@ -6,6 +6,7 @@ using project.Models;
 using project.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace project.Controllers
 {
@@ -14,11 +15,13 @@ namespace project.Controllers
     public class AuthController : BaseController
     {
         private readonly DatabaseContext dataContext;
+        private readonly IConfiguration configuration;
         private readonly JWTService jwtService;
 
         public AuthController(DatabaseContext dataContext, IConfiguration configuration)
         {
             this.dataContext = dataContext;
+            this.configuration = configuration;
             jwtService = new JWTService(configuration.GetSection("AppSettings:Token").Value);
         }
 
@@ -33,9 +36,11 @@ namespace project.Controllers
             }
 
             var newEmployee = new Entities.Employee();
+            CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             newEmployee.Username = model.Username;
-            newEmployee.Password = model.Password;
+            newEmployee.PasswordHash = passwordHash;
+            newEmployee.PasswordSalt = passwordSalt;
             newEmployee.ContractHours = model.ContractHours;
             newEmployee.Role = Role.werknemer;
 
@@ -55,18 +60,30 @@ namespace project.Controllers
                 return NotFound("User was not found");
             }
 
-            if (model.Password != user.Password)
+            if (!VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Username or Password does not match");
             }
 
-            return Ok(new
+            return Ok(jwtService.CreateJWT(user));
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
             {
-                token = jwtService.CreateJWT(user),
-                user.Id,
-                user.Username,
-                user.Role,
-            });
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
+            }
         }
     }
 }
