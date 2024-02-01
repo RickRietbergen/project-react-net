@@ -23,7 +23,7 @@ namespace project.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Employee>> Register(EmployeeCreateModel model)
+        public async Task<ActionResult<Entities.Employee>> Register(EmployeeCreateModel model)
         {
             var user = await dataContext.Employees.Where(g => g.Username == model.Username).FirstOrDefaultAsync();
 
@@ -32,7 +32,7 @@ namespace project.Controllers
                 return BadRequest("Username is already in use.");
             }
 
-            var newEmployee = new Employee();
+            var newEmployee = new Entities.Employee();
 
             newEmployee.Username = model.Username;
             newEmployee.Password = model.Password;
